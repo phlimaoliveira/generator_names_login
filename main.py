@@ -32,9 +32,9 @@ model.eval()
 
 @app.route("/eping/generate/<nome_completo>", methods=["POST"])
 def generateLogin(nome_completo):
-    login_unico = EpingGenerator.generateLogin(nome_completo)
+    lista_logins = EpingGenerator.generateLogin(nome_completo)
 
-    return jsonify({"login": login_unico})
+    return jsonify(lista_logins)
 
 @app.route("/eping/is_composite_name/<nome>", methods=["GET"])
 def isCompositeName(nome):

@@ -2,7 +2,10 @@ import random, json
 from flask import jsonify
 
 import torch
-
+import nltk
+from string import punctuation
+import unidecode
+from itertools import permutations
 from machine_learning.model import NeuralNet
 from machine_learning.nltk_utils import bag_of_words, tokenize
 
@@ -26,11 +29,32 @@ model.load_state_dict(model_state)
 model.eval()
 
 class EpingGenerator:
-    def generateLogin(nome_completo):
-        return str('login.unico')
 
-    def gender_features(word):
-        return {'last_letter': word[-1]}
+    def tratar(nome_completo):
+        nome_lower_case = str(nome_completo).lower()
+        remocao_pontuacao = ''.join([letra for letra in nome_lower_case if letra not in punctuation])
+        nome_sem_acentos = unidecode.unidecode(remocao_pontuacao)
+        nome_tokenizado = nltk.word_tokenize(nome_sem_acentos)
+
+        stopwords = nltk.corpus.stopwords.words('portuguese')
+
+        nome_tratado = [p for p in nome_tokenizado if p not in stopwords]
+        return nome_tratado
+
+    def generateLogin(nome_completo):
+        separator = "."
+        nome_tratado = EpingGenerator.tratar(nome_completo)
+        temp = permutations(nome_tratado, 2)
+        lista = []
+        for i in list(temp):
+            loginComPonto = separator.join(i)
+            lista.append(loginComPonto)
+
+        for i in range(1, 50):
+            loginComNumero = lista[0] + "." + str(i)
+            lista.append(loginComNumero)
+
+        return lista
 
     def isCompositeName(name):
         sentence = tokenize(name)
