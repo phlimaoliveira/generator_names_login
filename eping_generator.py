@@ -73,7 +73,7 @@ class EpingGenerator:
             if prob.item() > 0.99:
                 for intent in intents['intents']:
                     if tag == intent["tag"]:
-                        return jsonify(f"{random.choice(intent['responses'])}")
-            return jsonify(f"NÃO É UM NOME COMPOSTO")
+                        return jsonify(f"{random.choice(intent['responses'])}") # True
+            return jsonify(f"NÃO É UM NOME COMPOSTO") # False
         else:
-            return jsonify(f"NÃO É UM NOME COMPOSTO")
+            return jsonify(f"NÃO É UM NOME COMPOSTO") # False
