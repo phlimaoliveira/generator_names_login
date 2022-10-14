@@ -28,7 +28,7 @@ model = NeuralNet(input_size, hidden_size, output_size).to(device)
 model.load_state_dict(model_state)
 model.eval()
 
-class EpingGenerator:
+class NamesGenerator:
 
     def tratar(nome_completo):
         nome_lower_case = str(nome_completo).lower()
@@ -41,9 +41,9 @@ class EpingGenerator:
         nome_tratado = [p for p in nome_tokenizado if p not in stopwords]
         return nome_tratado
 
-    def generateLogin(nome_completo):
+    def generate_login(nome_completo):
         separator = "."
-        nome_tratado = EpingGenerator.tratar(nome_completo)
+        nome_tratado = NamesGenerator.tratar(nome_completo)
         temp = permutations(nome_tratado, 2)
         lista = []
         for i in list(temp):
@@ -56,7 +56,7 @@ class EpingGenerator:
 
         return lista
 
-    def isCompositeName(name):
+    def is_composite_name(name):
         sentence = tokenize(name)
         if len(sentence) > 1:
             X = bag_of_words(sentence, all_words)
